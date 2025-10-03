@@ -41,9 +41,9 @@ CI/CD Akışını Doğrulama (Sürekli Entegrasyon)
 
 Otomasyonun çalıştığını test etmek için:
 	1.	GitHub deponuzdaki herhangi bir dosyada küçük bir değişiklik yapın (ör. README.md’ye bir boş satır ekleyin).
-	2.	Değişikliği commit edip GitHub’a push edin:
-  git add .
-  git commit -m "test: trigger CI pipeline"
-  git push origin main
-  3.	GitHub arayüzünde Actions sekmesine gidin.
-	4.	Yeni push ile birlikte "ML API CI Pipeline" (veya repositoryde tanımlı workflow) tetiklenmiş olmalı; workflow çalışıp Docker imajını yeniden derleyecektir.
+    2.	Değişikliği commit edip GitHub’a push edin:
+    git add .
+    git commit -m "test: trigger CI pipeline"
+    git push origin main
+    3.	GitHub arayüzünde Actions sekmesine gidin.
+    4.	Yeni push ile birlikte "ML API CI Pipeline" (veya repositoryde tanımlı workflow) tetiklenmiş olmalı; workflow çalışıp Docker imajını yeniden derleyecektir.
