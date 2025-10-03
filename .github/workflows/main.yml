@@ -1,50 +1,57 @@
-name: CI/CD Pipeline - Docker Build and Push
+# GitHub Actions (CI/CD) Workflow
+# Koda yapılan her push işleminde projeyi build eder.
+
+name: ML API CI Pipeline
 
 on:
   push:
-    branches:
-      - main # main branch'ine her push yapıldığında çalıştır
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  build-and-push:
+  build-services:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Set up QEMU (Gerekli değilse silinebilir)
-        uses: docker/setup-qemu-action@v2
-
+      # --- MODEL BAĞIMLILIĞI KURULUMU ---
+      # Docker build'den önce model dosyasını oluşturmalıyız
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          
+      - name: Install model creation dependencies
+        run: |
+          pip install scikit-learn numpy joblib
+          
+      - name: 🔨 Create ML Model File
+        # Modeli eğitip ModelService/model/ içine kaydeder
+        run: python create_model.py
+        
+      # --- DOCKER BUILD ADIMLARI ---
+      
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/setup-buildx-action@v3
+        
+      - name: 📦 Build Python ML Service Image
+        uses: docker/build-push-action@v5
         with:
-          # GitHub Secrets kullanarak Docker Hub kullanıcı adı ve şifresi alınır
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          
-      - name: Build and Push C# API Image
-        uses: docker/build-push-action@v3
-        with:
-          context: . # Kök dizin
-          file: MLApi/Dockerfile # C# Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/ml-api-csharp:latest
-          
-      - name: Build and Push Python Service Image
-        uses: docker/build-push-action@v3
-        with:
-          context: . # Kök dizin
-          file: ModelService/Dockerfile.python # Python Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/ml-api-python:latest
+          context: .
+          file: ModelService/Dockerfile.python
+          tags: python-service:latest
+          push: false # Yalnızca build eder, Docker Hub'a yüklemez (güvenlik için)
 
-      - name: Deployment Message
-        run: echo "Docker imajları başarıyla build edildi ve Docker Hub'a yüklendi!"
+      - name: 📦 Build C# API Proxy Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: MLApi/Dockerfile
+          tags: csharp-api:latest
+          push: false # Yalnızca build eder
 
+      - name: 🏁 CI Pipeline Success
+        run: echo "CI build completed successfully. Images built locally."
