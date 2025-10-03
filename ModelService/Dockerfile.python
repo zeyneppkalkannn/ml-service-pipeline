@@ -1,0 +1,21 @@
+# Resmi Python imajını kullan
+FROM python:3.10-slim
+
+# Çalışma dizinini ayarla
+WORKDIR /app
+
+# Bağımlılıkları kopyala ve kur
+COPY ModelService/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Model dosyasını kopyala
+COPY ModelService/model/ model/
+
+# Uygulama dosyasını kopyala
+COPY ModelService/app.py .
+
+# Flask'in varsayılan portunu aç
+EXPOSE 5000
+
+# Uygulamayı çalıştır
+CMD ["python", "app.py"]

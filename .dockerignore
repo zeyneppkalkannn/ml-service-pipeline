@@ -1,0 +1,21 @@
+# C# (.NET) geçici build klasörleri
+**/bin/
+**/obj/
+
+# Docker build dosyaları
+*.dockerignore
+Dockerfile
+Dockerfile.python
+
+# Python geçici dosyaları
+__pycache__
+
+# IDE (VS Code, Rider, vb.) klasörleri
+.vs/
+.vscode/
+
+# Git klasörleri
+.git
+
+# Model dosyaları zaten elle kopyalanıyor (opsiyonel)
+# ModelService/model/

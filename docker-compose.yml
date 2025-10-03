@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  csharp-api:
+    build:
+      context: .
+      dockerfile: MLApi/Dockerfile
+    container_name: ml-api-csharp
+    ports:
+      # Dışarıdan erişim (http://localhost:8080)
+      - "8080:8080" 
+    networks:
+      - ml_network
+    # Python servisi hazır olana kadar bekle
+    depends_on:
+      - python-service
+
+  python-service:
+    build:
+      context: .
+      dockerfile: ModelService/Dockerfile.python
+    container_name: ml-api-python
+    networks:
+      - ml_network
+
+# Servislerin birbirleriyle iletişim kurabileceği sanal ağ
+networks:
+  ml_network:
+    driver: bridge
