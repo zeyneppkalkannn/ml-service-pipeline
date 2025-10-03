@@ -1,4 +1,4 @@
-Makine Öğrenmesi Modelini API Olarak Sunma ve CI/CD Prensibini Uygulama
+MAKİNE ÖĞRENMESİ MODELİNİ API OLARAK SUNMA VE CI/CD PRENSİBİNİ UYGULAMA
 Bu proje, önceden eğitilmiş bir makine öğrenimi modelini (Python/Flask) bir C# .NET Core Web API'si üzerinden sunmayı ve bu süreci Docker ile konteynerize edip GitHub Actions ile otomatikleştirmeyi amaçlamaktadır.
 
 Nasıl Çalıştırılır (Yerel Ortam)
@@ -14,21 +14,26 @@ pip install scikit-learn numpy joblib
 # Modeli eğitir ve ModelService/model/linear_model.pkl olarak kaydeder
 python create_model.py
 
+
+
 2. Konteynerleri Başlatma
 
-Projenin kök dizinindeyken Docker Compose'u çalıştırın:
+Projenin kök dizinindeyken Docker Compose'u çalıştırın.
 
-# Tüm servisleri build eder ve arka planda başlatır
+# Tüm servisleri build eder ve arka planda başlatır (-d: detached mode)
 docker-compose up --build -d
+
+
 
 3. API'yi Test Etme
 
-Uygulama başarıyla başladıktan sonra (kontrol için docker ps), son test komutunu çalıştırın.
+Uygulama başarıyla başladıktan sonra (kontrol için docker ps), tahmin isteğini gönderin.
 
 curl -X POST http://localhost:8080/api/prediction -H "Content-Type: application/json" -d '{"features": [[10.0, 5.0]]}'
 
-4. CI/CD Akışını Doğrulama (Sürekli Entegrasyon)
 
+
+CI/CD Akışını Doğrulama (Sürekli Entegrasyon)
 Projenin otomasyon özelliğini test etmek için:
 
 GitHub deponuzda herhangi bir dosyada küçük bir değişiklik yapın (örneğin, bu README.md dosyasına bir boşluk ekleyin).
