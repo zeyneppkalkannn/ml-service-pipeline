@@ -1,4 +1,4 @@
-MAKİNE ÖĞRENMESİ MODELİNİ API OLARAK SUNMA VE CI/CD PRENSİBİNİ UYGULAMA
+Makine Öğrenmesi Modelini API Olarak Sunma ve CI/CD Prensibini Uygulama
 Bu proje, önceden eğitilmiş bir makine öğrenimi modelini (Python/Flask) bir C# .NET Core Web API'si üzerinden sunmayı ve bu süreci Docker ile konteynerize edip GitHub Actions ile otomatikleştirmeyi amaçlamaktadır.
 
 Nasıl Çalıştırılır (Yerel Ortam)
