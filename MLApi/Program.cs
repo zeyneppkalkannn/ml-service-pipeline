@@ -1,6 +1,5 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// ********** KRİTİK GÜNCELLEME: KONTEYNER PORT AYARI **********
 // Docker içindeki .NET uygulamasını 8080 portunda dinlemeye zorlar.
 // Bu, docker-compose.yml'deki "8080:8080" eşleşmesi için gereklidir.
 builder.WebHost.UseUrls("http://*:8080"); 
